@@ -1,0 +1,21 @@
+# Build image from Dockerfile
+sudo docker build -t "centos-hadoop-spark:latest" ./
+
+# Create container based on created image
+# Hadoop ports: -p 50072:50070 -p 8089:8088 -p 9009:9000
+# Spark ports: -p 8085:8080 -p 7078:7077
+sudo docker run -d -t --privileged=true -p 50072:50070 -p 8089:8088 -p 9009:9000 -p 8085:8080 -p 7078:7077 centos-hadoop-spark:latest /usr/sbin/init
+
+# Enter image and start service
+sudo docker exec -it {CONTAINER_ID} bash
+
+# Inside the container start hadoop (dont need to start spark since it's not standalone)
+start-dfs.sh
+start-yarn.sh
+
+# Access services
+    Hadoop:
+        http://host-ip:50072/
+        http://host-ip:8089/
+    
+    Spark:

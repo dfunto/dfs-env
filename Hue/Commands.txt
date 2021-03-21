@@ -1,0 +1,9 @@
+# Get hue image from docker hub
+docker pull gethue/hue:latest
+
+# Hue is available as a docker image on docker hub, to instantiate one run the following comands
+sudo docker build -t "centos-hue:latest" ./
+
+# Create container based on downloaded image
+# Hue ports: 8888
+sudo docker run -td -h bi-dfs-centos-hue -p 8888:8888 centos-hue:latest

@@ -1,0 +1,12 @@
+# Build image from Dockerfile
+sudo docker build -t "centos-hdoop:latest" ./
+
+# Create container based on created image
+# 50070 - Namenode
+# 50075
+# 8088 - Applications
+# 9000
+sudo docker run -td -h bi-dfs-centos-hadoop -p 50070:50070 -p 50075:50075 -p 8088:8088 -p 9000:9000 centos-hdoop:latest
+
+# BUG - When running start.sh script only start-yarn.sh works, start-dfs.sh apparently won't works
+# TODO - Maybe detaching hadoop parts docker could work

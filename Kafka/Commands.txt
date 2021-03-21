@@ -1,0 +1,5 @@
+# Build image from Dockerfile
+sudo docker build -t "centos-kafka:latest" ./
+
+# Create container based on created image
+sudo docker run -td -h bi-dfs-centos-kafka -p 9092:9092 -p 8084:8084 centos-kafka:latest

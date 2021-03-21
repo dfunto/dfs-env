@@ -1,0 +1,40 @@
+# Build image from Dockerfile
+sudo docker build -t "centos-apphadoop:latest" ./
+
+# Create container based on created image
+# Hadoop ports:
+    50070
+    50075
+    8088
+    9000
+
+# Hive ports:
+    10000
+
+sudo docker run -td -h bi-dfs-centos-apphadoop -p 50070:50070 -p 50075:50075 -p 8088:8088 -p 9000:9000 -p 10000:10000 centos-apphadoop:latest
+
+
+
+hadoop fs -mkdir -p    /tmp
+hadoop fs -mkdir -p    /user/hadoopusr/warehouse
+hadoop fs -chmod g+w   /tmp
+hadoop fs -chmod g+w   /user/hadoopusr/warehouse
+
+
+cd $HIVE_HOME && schematool -dbType derby -initSchema
+
+-- Start server and connect (not working dont know why)
+hive --service hiveserver2 &
+beeline -n -u jdbc:hive2://localhost:10000
+
+-- Start and connect for testing
+beeline -u jdbc:hive2://
+
+-- Find hive server process
+pgrep -f org.apache.hive.service.server.HiveServer2
+
+beeline -u jdbc:hive2://localhost:10000 hadoopusr hadooppwd
+
+
+
+ssh-keyscan -H -t rsa lpvbiap01 >> ~/.ssh/known_hosts

@@ -1,0 +1,12 @@
+# Build image from Dockerfile
+sudo docker build -t "centos-airflow:latest" ./
+
+# Create container based on created image
+sudo docker run -d -t -p 8090:8080 centos-airflow:latest /usr/sbin/init
+
+# Enter image and start service
+sudo docker exec -it {CONTAINER_ID} bash
+
+# Initialize web server and scheduler
+airflow webserver -D --port 8080
+airflow scheduler -D
